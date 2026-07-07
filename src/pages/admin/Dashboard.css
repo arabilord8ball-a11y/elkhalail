@@ -1,0 +1,256 @@
+.dashboard { display: flex; flex-direction: column; gap: var(--space-6); }
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+.dashboard-title { font-size: 26px; font-weight: 700; color: var(--dark-600); }
+.dashboard-sub { color: var(--gray-500); font-size: 14px; margin-top: 2px; }
+.dashboard-date {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 14px;
+  color: var(--gray-600);
+  border: 1px solid var(--gray-200);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  background: var(--white);
+}
+
+/* Stat Cards */
+.stat-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+}
+.dash-stat-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  border: 1px solid var(--gray-100);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-slow);
+}
+.dash-stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.dash-stat-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dash-stat-info { flex: 1; min-width: 0; }
+.dash-stat-label { font-size: 13px; color: var(--gray-500); margin-bottom: 3px; }
+.dash-stat-value { font-size: 24px; font-weight: 800; color: var(--dark-600); line-height: 1.2; }
+.dash-stat-change {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+/* Charts Row */
+.charts-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: var(--space-5);
+}
+.chart-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  border: 1px solid var(--gray-100);
+  box-shadow: var(--shadow-sm);
+}
+.chart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-5);
+}
+.chart-header h3 { font-size: 15px; font-weight: 700; color: var(--dark-600); }
+.chart-select {
+  font-size: 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  padding: 4px 8px;
+  color: var(--gray-600);
+  outline: none;
+  cursor: pointer;
+  font-family: var(--font-main);
+}
+.view-all-link { font-size: 13px; color: var(--gold); font-weight: 600; text-decoration: none; }
+.view-all-link:hover { color: var(--gold-dark); }
+
+/* Occupancy */
+.occupancy-content { display: flex; align-items: center; gap: var(--space-4); }
+.pie-wrapper { position: relative; flex-shrink: 0; width: 160px; }
+.pie-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.pie-pct { font-size: 22px; font-weight: 800; color: var(--dark-600); }
+.pie-label { font-size: 11px; color: var(--gray-500); }
+.occupancy-legend { display: flex; flex-direction: column; gap: var(--space-3); flex: 1; }
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 12px;
+  color: var(--gray-600);
+}
+.legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-name { flex: 1; }
+.legend-rooms { font-size: 11px; color: var(--gray-400); }
+.legend-total { font-size: 12px; font-weight: 600; color: var(--gray-600); border-top: 1px solid var(--gray-100); padding-top: var(--space-2); margin-top: var(--space-1); }
+
+/* Recent Bookings */
+.recent-bookings-list { display: flex; flex-direction: column; gap: var(--space-3); }
+.recent-booking-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--gray-50);
+}
+.recent-booking-item:last-child { border-bottom: none; }
+.rb-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rb-info { flex: 1; min-width: 0; }
+.rb-name { font-size: 13px; font-weight: 600; color: var(--dark-600); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rb-room { font-size: 11px; color: var(--gray-500); }
+.rb-dates { font-size: 11px; color: var(--gray-500); white-space: nowrap; }
+
+/* Bottom Stats */
+.bottom-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-4);
+}
+.bottom-stat-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  text-align: center;
+  border: 1px solid var(--gray-100);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+.bottom-stat-icon { font-size: 28px; }
+.bottom-stat-value { font-size: 28px; font-weight: 800; color: var(--dark-600); line-height: 1; }
+.bottom-stat-label { font-size: 12px; color: var(--gray-500); }
+.bottom-stat-link { font-size: 12px; color: var(--gold); font-weight: 600; text-decoration: none; }
+.bottom-stat-link:hover { color: var(--gold-dark); }
+
+/* Bottom Row */
+.bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-5);
+}
+
+/* Recent Reviews */
+.recent-reviews-list { display: flex; flex-direction: column; gap: var(--space-3); }
+.recent-review-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--gray-50);
+}
+.recent-review-item:last-child { border-bottom: none; }
+.mini-stars { font-size: 12px; color: #F59E0B; letter-spacing: 1px; }
+.review-preview { font-size: 12px; color: var(--gray-500); max-width: 100px; text-align: right; }
+
+/* Top Tours */
+.top-tours-list { display: flex; flex-direction: column; gap: var(--space-3); }
+.top-tour-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--gray-50);
+}
+.top-tour-item:last-child { border-bottom: none; }
+.top-tour-img {
+  width: 48px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.top-tour-info { flex: 1; min-width: 0; }
+.top-tour-name { font-size: 13px; font-weight: 600; color: var(--dark-600); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top-tour-bookings { font-size: 11px; color: var(--gray-500); }
+.top-tour-revenue { font-size: 14px; font-weight: 700; color: var(--gold); white-space: nowrap; }
+
+/* Revenue */
+.revenue-overview { display: flex; flex-direction: column; gap: var(--space-4); }
+.revenue-row { display: flex; flex-direction: column; gap: 6px; }
+.revenue-row-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--gray-600);
+}
+.revenue-row-header strong { color: var(--dark-600); font-weight: 700; }
+.revenue-bar-track { height: 6px; background: var(--gray-100); border-radius: 3px; overflow: hidden; }
+.revenue-bar-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+.revenue-pct { font-size: 11px; color: var(--gray-400); }
+.revenue-total {
+  display: flex;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  border-top: 2px solid var(--gray-200);
+  font-size: 14px;
+  color: var(--gray-700);
+}
+.revenue-total strong { font-size: 18px; font-weight: 800; color: var(--dark-600); }
+
+/* Responsive */
+@media (max-width: 1280px) {
+  .charts-row { grid-template-columns: 1fr 1fr; }
+  .recent-bookings-card { grid-column: 1 / -1; }
+  .bottom-stats-grid { grid-template-columns: repeat(3, 1fr); }
+  .bottom-row { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 900px) {
+  .stat-cards-grid { grid-template-columns: 1fr 1fr; }
+  .charts-row { grid-template-columns: 1fr; }
+  .bottom-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .bottom-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .stat-cards-grid { grid-template-columns: 1fr; }
+  .bottom-stats-grid { grid-template-columns: 1fr 1fr; }
+}

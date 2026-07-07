@@ -1,0 +1,377 @@
+/* ===================================================
+   SHARED PUBLIC PAGE STYLES
+   Used across multiple public pages
+   =================================================== */
+
+/* ===== PAGE HERO (used by all pages except Home) ===== */
+.page-hero {
+  position: relative;
+  height: 340px;
+  display: flex;
+  align-items: flex-end;
+  padding-top: var(--navbar-height);
+}
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+}
+.page-hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.page-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,10,18,0.6) 0%, rgba(10,10,18,0.75) 100%);
+}
+.page-hero-content {
+  position: relative;
+  z-index: 1;
+  padding-bottom: var(--space-10);
+}
+.page-hero-content h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: var(--space-2);
+}
+.page-hero-content p {
+  color: rgba(255,255,255,0.7);
+  font-size: 16px;
+}
+.white-breadcrumb a, .white-breadcrumb span {
+  color: rgba(255,255,255,0.6) !important;
+}
+.white-breadcrumb a:hover { color: var(--gold) !important; }
+
+/* ===== SEARCH & FILTER (used in Rooms, Tours) ===== */
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+  font-size: 16px;
+}
+.search-box input {
+  width: 100%;
+  padding: 10px 14px 10px 42px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  outline: none;
+  transition: var(--transition);
+  font-family: var(--font-main);
+}
+.search-box input:focus { border-color: var(--gold); }
+
+.filter-tabs {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+.filter-tab {
+  padding: 9px 18px;
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  border: 1.5px solid var(--gray-200);
+  color: var(--gray-600);
+  transition: var(--transition);
+  cursor: pointer;
+  background: var(--white);
+}
+.filter-tab:hover { border-color: var(--gold); color: var(--gold); }
+.filter-tab.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--white);
+}
+
+.results-count {
+  font-size: 14px;
+  color: var(--gray-500);
+  margin-bottom: var(--space-6);
+}
+.results-count strong { color: var(--dark-600); }
+
+.no-results {
+  text-align: center;
+  padding: var(--space-16);
+  color: var(--gray-500);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+/* ===== BOOKING BAR ===== */
+.rooms-booking-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-100);
+  padding: var(--space-5) 0;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ===== TOUR BADGE ===== */
+.tour-badge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  background: var(--gold);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+/* ===== STARS (used in RoomDetail, TourDetail) ===== */
+.stars-row {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.star {
+  font-size: 16px;
+  color: var(--gray-300);
+  stroke-width: 2;
+}
+.star.filled {
+  color: #F59E0B;
+  fill: #F59E0B;
+}
+.rating-num {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark-600);
+  margin-left: 4px;
+}
+.rating-count { font-size: 13px; color: var(--gray-500); }
+
+/* ===== REVIEWS SUMMARY (RoomDetail + TourDetail) ===== */
+.reviews-summary {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-8);
+  padding: var(--space-5);
+  background: var(--gray-50);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--space-6);
+}
+.rating-big { text-align: center; }
+.rating-big-num { font-size: 48px; font-weight: 800; color: var(--dark-600); line-height: 1; }
+.rating-big-label { font-size: 14px; font-weight: 700; color: var(--gold); margin: 4px 0; }
+.rating-big-count { font-size: 12px; color: var(--gray-500); }
+
+.rating-bars { display: flex; flex-direction: column; gap: var(--space-2); justify-content: center; }
+.rating-bar-row { display: flex; align-items: center; gap: var(--space-3); font-size: 13px; color: var(--gray-600); }
+.rating-bar-track { flex: 1; height: 6px; background: var(--gray-200); border-radius: 3px; overflow: hidden; }
+.rating-bar-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.6s ease; }
+
+/* ===== REVIEW ITEMS (shared) ===== */
+.review-avatar-sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.review-item-header { display: flex; align-items: center; gap: var(--space-3); }
+.review-item-name { font-weight: 700; font-size: 15px; color: var(--dark-600); }
+.review-item-meta { font-size: 12px; color: var(--gray-500); }
+
+/* ===== GALLERY (RoomDetail + TourDetail) ===== */
+.gallery-main {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  aspect-ratio: 16/10;
+}
+.gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.5);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  backdrop-filter: blur(4px);
+}
+.gallery-nav:hover { background: var(--gold); }
+.gallery-nav.prev { left: var(--space-3); }
+.gallery-nav.next { right: var(--space-3); }
+.view-photos-btn {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  background: rgba(0,0,0,0.6);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(4px);
+}
+.gallery-thumbs {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  overflow-x: auto;
+}
+.gallery-thumb {
+  width: 72px;
+  height: 54px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  flex-shrink: 0;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  background: none;
+  padding: 0;
+}
+.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-thumb.active { border-color: var(--gold); }
+
+/* ===== BOOKING WIDGET (shared between Room + Tour detail) ===== */
+.bw-phone {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 15px;
+  text-decoration: none;
+  transition: var(--transition);
+}
+.bw-phone:hover { color: var(--gold-dark); }
+
+/* ===== VIEW ALL LINK ===== */
+.view-all-link {
+  font-size: 14px;
+  color: var(--gold);
+  font-weight: 600;
+  text-decoration: none;
+  transition: var(--transition);
+}
+.view-all-link:hover { color: var(--gold-dark); }
+
+/* ===== HIGHLIGHT ITEM ===== */
+.highlight-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 14px;
+  color: var(--gray-700);
+}
+.highlight-icon { color: var(--gold); flex-shrink: 0; margin-top: 2px; }
+
+/* ===== ADMIN RB AVATAR (reused in dashboard) ===== */
+.rb-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ===================== GLOBAL MOBILE RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  /* Page Hero (Rooms, Tours, About, Contact etc.) */
+  .page-hero {
+    height: 220px;
+  }
+  .page-hero-content h1 {
+    font-size: clamp(24px, 7vw, 36px);
+  }
+  .page-hero-content p {
+    font-size: 14px;
+  }
+
+  /* Section headers */
+  .section-title { font-size: clamp(22px, 6vw, 36px); }
+  .section-subtitle { font-size: 14px; }
+
+  /* Search + filter bar */
+  .search-box { min-width: unset; width: 100%; }
+  .filter-tabs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .filter-tabs::-webkit-scrollbar { display: none; }
+  .filter-tab { white-space: nowrap; flex-shrink: 0; }
+
+  /* Gallery thumbs */
+  .gallery-thumbs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+  .gallery-thumbs::-webkit-scrollbar { display: none; }
+  .gallery-thumb { flex-shrink: 0; width: 72px; height: 56px; }
+
+  /* Breadcrumb */
+  .breadcrumb { font-size: 12px; }
+
+  /* Cards */
+  .card { border-radius: 12px; }
+
+  /* Inputs prevent zoom on Android */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="date"],
+  input[type="tel"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Page hero even smaller */
+  .page-hero { height: 180px; }
+  
+  /* Section tight padding */
+  .section { padding: var(--space-8) 0; }
+  
+  /* Booking widget (Room/Tour detail) */
+  .booking-widget,
+  .tour-booking-widget {
+    padding: var(--space-4);
+    border-radius: 12px;
+  }
+}

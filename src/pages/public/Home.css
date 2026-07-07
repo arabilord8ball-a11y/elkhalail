@@ -1,0 +1,526 @@
+.home-page { overflow-x: hidden; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: var(--navbar-height);
+  padding-bottom: 120px;
+}
+
+/* ===== HERO SECTION WRAPPER (includes booking bar) ===== */
+.hero-section-wrapper {
+  position: relative;
+  overflow: visible;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 10, 18, 0.85) 0%,
+    rgba(10, 10, 18, 0.6) 50%,
+    rgba(10, 10, 18, 0.4) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding-top: var(--space-16);
+}
+
+.hero-eyebrow {
+  color: var(--gold);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: var(--space-3);
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(48px, 7vw, 90px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: var(--space-5);
+}
+
+.hero-subtitle {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.6;
+  margin-bottom: var(--space-8);
+}
+
+.hero-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+
+.hero-feature {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.hero-feature svg { color: var(--gold); font-size: 18px; }
+
+.hero-booking-bar {
+  position: absolute;
+  bottom: -32px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
+/* Spacer to compensate for the absolutely-positioned booking bar */
+.hero-booking-spacer {
+  height: 64px;
+}
+
+/* ===== SECTION SPACING ===== */
+.mb-section-header { margin-bottom: var(--space-10); }
+
+/* ===== CAROUSEL ===== */
+.carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.carousel-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-200);
+  background: var(--white);
+  color: var(--gray-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: var(--transition);
+  flex-shrink: 0;
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+}
+.carousel-btn:hover:not(:disabled) {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: var(--gold-bg);
+}
+.carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.rooms-carousel,
+.tours-carousel {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-5);
+  flex: 1;
+  overflow: hidden;
+}
+
+/* ===== ROOM CARD ===== */
+.room-card { cursor: default; }
+
+.room-card-img {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+.room-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.room-card:hover .room-card-img img { transform: scale(1.05); }
+
+.room-card-type {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  background: rgba(0,0,0,0.6);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  backdrop-filter: blur(4px);
+}
+
+.room-card-body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.room-card-body h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark-600);
+}
+.room-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.room-card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.room-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--gray-100);
+}
+
+.room-price { display: flex; align-items: baseline; gap: 3px; }
+.price-amount { font-size: 22px; font-weight: 800; color: var(--gold); }
+.price-unit { font-size: 12px; color: var(--gray-500); }
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  background: var(--dark-600);
+  padding: var(--space-8) 0;
+  margin: var(--space-8) 0;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-6);
+}
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--white);
+}
+.stat-icon { font-size: 24px; color: var(--gold); flex-shrink: 0; }
+.stat-value { font-size: 18px; font-weight: 700; }
+.stat-label { font-size: 12px; color: rgba(255,255,255,0.6); }
+
+/* ===== TOURS SECTION ===== */
+.tours-section { background: var(--gray-50); }
+
+.tour-card {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.tour-card-img {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+.tour-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.tour-card:hover .tour-card-img img { transform: scale(1.05); }
+
+.tour-badge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  background: var(--gold);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.5px;
+}
+
+.tour-card-body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.tour-card-body h3 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark-600);
+  line-height: 1.3;
+}
+.tour-card-meta {
+  display: flex;
+  gap: var(--space-3);
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.tour-card-footer {
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--gray-100);
+}
+.tour-price { display: flex; align-items: baseline; gap: 3px; }
+
+/* ===== SPECIAL OFFER BANNER ===== */
+.offer-banner {
+  background: linear-gradient(135deg, var(--dark-600) 0%, var(--dark-500) 100%);
+  padding: var(--space-10) 0;
+  position: relative;
+  overflow: hidden;
+}
+.offer-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(201, 151, 58, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.offer-banner-inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  position: relative;
+  z-index: 1;
+}
+.offer-banner-icon { font-size: 48px; flex-shrink: 0; }
+.offer-banner-text { flex: 1; }
+.offer-label {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 1px;
+  margin-bottom: var(--space-2);
+}
+.offer-banner-text h3 {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: var(--space-2);
+}
+.offer-banner-text p { color: rgba(255,255,255,0.7); font-size: 15px; }
+.offer-cta { flex-shrink: 0; padding: 14px 28px; }
+
+/* ===== WHY CHOOSE US ===== */
+.why-header { text-align: center; margin-bottom: var(--space-10); }
+.why-header .section-subtitle { margin: 0 auto; }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+}
+.why-card {
+  text-align: center;
+  padding: var(--space-8);
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--gray-100);
+  transition: var(--transition-slow);
+}
+.why-card:hover {
+  border-color: var(--gold-bg);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+.why-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--gold-bg);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  margin: 0 auto var(--space-4);
+}
+.why-card h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark-600);
+  margin-bottom: var(--space-2);
+}
+.why-card p { font-size: 14px; color: var(--gray-500); }
+
+/* ===== REVIEWS ===== */
+.reviews-section { background: var(--gray-50); }
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+.review-card { padding: var(--space-6); }
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+.review-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--white);
+  font-weight: 700;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.review-name { font-weight: 700; font-size: 15px; color: var(--dark-600); }
+.review-country { font-size: 12px; color: var(--gray-500); }
+.review-text {
+  font-size: 14px;
+  color: var(--gray-600);
+  line-height: 1.7;
+  margin-top: var(--space-3);
+  font-style: italic;
+}
+.carousel-controls { display: flex; gap: var(--space-2); }
+.carousel-ctrl-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--gray-200);
+  background: var(--white);
+  color: var(--gray-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.carousel-ctrl-btn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .rooms-carousel, .tours-carousel { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(3, 1fr); }
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+  .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  /* Fix hero: make it NOT extend for the booking bar on mobile */
+  .hero {
+    padding-bottom: 40px;
+    min-height: 70vh;
+  }
+  /* On mobile, booking bar is static (not absolute) so it doesn't overlap content */
+  .hero-booking-bar {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin-top: 24px;
+    padding: 0 0 20px;
+  }
+  /* No spacer needed on mobile */
+  .hero-booking-spacer {
+    display: none;
+  }
+  .rooms-carousel, .tours-carousel { 
+    display: flex !important; 
+    grid-template-columns: none !important;
+    overflow-x: auto; 
+    gap: 16px;
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .rooms-carousel::-webkit-scrollbar,
+  .tours-carousel::-webkit-scrollbar {
+    display: none;
+  }
+  .room-card, .tour-card { 
+    flex: 0 0 82vw;
+    max-width: 320px;
+    scroll-snap-align: start; 
+  }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .offer-banner-inner { flex-direction: column; text-align: center; }
+  .carousel-wrapper { 
+    position: relative; 
+    display: block; 
+    width: 100%;
+  }
+  .carousel-btn { 
+    display: flex !important; 
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    background: rgba(255, 255, 255, 0.9);
+    width: 36px;
+    height: 36px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .carousel-btn.prev {
+    left: 4px;
+  }
+  .carousel-btn.next {
+    right: 4px;
+  }
+  /* Hero text sizing */
+  .hero-title { font-size: clamp(32px, 9vw, 52px); }
+  .hero-subtitle { font-size: 15px; }
+  .hero-eyebrow { font-size: 13px; }
+  /* Fix stats on mobile */
+  .stats-bar { padding: var(--space-6) 0; }
+  .stat-item { flex-direction: column; text-align: center; gap: var(--space-1); }
+  /* Why grid on mobile */
+  .why-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
+  .why-card { padding: var(--space-5); }
+  /* offer banner */
+  .offer-banner-text h3 { font-size: 22px; }
+  .offer-cta { width: 100%; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 30px; }
+  .hero-subtitle { font-size: 14px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .room-card, .tour-card { flex: 0 0 88vw; }
+  .reviews-grid { grid-template-columns: 1fr; }
+  .offer-banner-text h3 { font-size: 20px; }
+}

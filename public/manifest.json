@@ -1,0 +1,17 @@
+{
+  "short_name": "El Khalil",
+  "name": "El Khalil Hotel & Extranet",
+  "icons": [
+    {
+      "src": "/src/assets/hero.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#FAF9F6",
+  "theme_color": "#C9973A",
+  "display": "standalone",
+  "orientation": "portrait"
+}

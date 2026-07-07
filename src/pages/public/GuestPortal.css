@@ -1,0 +1,228 @@
+.guest-portal-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color);
+}
+
+.guest-portal-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 20px 60px 20px;
+}
+
+.guest-portal-card {
+  width: 100%;
+  max-width: 480px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+}
+
+.guest-portal-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.guest-portal-header h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.guest-portal-header p {
+  font-size: 13px;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+
+.guest-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--gray-100);
+  margin-bottom: 25px;
+}
+
+.guest-tab-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-400);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.guest-tab-btn:hover {
+  color: var(--gold);
+}
+
+.guest-tab-btn.active {
+  color: var(--gold);
+  border-bottom: 2px solid var(--gold);
+  margin-bottom: -2px;
+}
+
+.guest-portal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.guest-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.guest-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-h);
+  text-align: left;
+}
+
+.guest-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.guest-input-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--gray-400);
+}
+
+.guest-input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--bg-color);
+  color: var(--text-h);
+  font-size: 14px;
+  transition: all 0.3s;
+  font-family: inherit;
+  text-align: left;
+}
+
+.guest-input:focus {
+  outline: none;
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px var(--gold-bg);
+}
+
+.guest-alert-error {
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  color: #ef4444;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.guest-submit-btn {
+  background: var(--gold);
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+  margin-top: 10px;
+}
+
+.guest-submit-btn:hover {
+  background: var(--gold-hover);
+  transform: translateY(-1px);
+}
+
+.guest-submit-btn:disabled {
+  background: var(--gray-300);
+  cursor: not-allowed;
+}
+
+/* Styled split phone/country selectors */
+.phone-input-split {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.dial-code-select {
+  width: 110px;
+  flex-shrink: 0;
+  padding: 10px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  outline: none;
+  font-family: var(--font-main);
+  background: var(--white);
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.dial-code-select:focus {
+  border-color: var(--gold);
+}
+
+.phone-number-field {
+  flex: 1;
+}
+
+/* Password eye button and flag icon styling */
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--gray-400);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  font-size: 16px;
+  transition: var(--transition);
+  z-index: 5;
+}
+
+.password-toggle-btn:hover {
+  color: var(--gold);
+}
+
+.guest-input-password {
+  padding-right: 40px !important;
+}
+
+.guest-input-flag-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.guest-input-with-flag {
+  padding-left: 38px !important;
+}
+
+
