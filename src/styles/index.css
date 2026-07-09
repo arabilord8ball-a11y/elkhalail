@@ -342,8 +342,10 @@ input, textarea, select { font-family: inherit; }
 /* ===================== MOBILE BODY FIX ===================== */
 /* Prevent horizontal overflow globally on mobile */
 @media (max-width: 768px) {
-  body {
+  html, body, #root {
     overflow-x: hidden;
+    max-width: 100%;
+    position: relative;
   }
   /* Add bottom padding to all main pages for bottom nav */
   .rooms-page,
@@ -359,4 +361,5 @@ input, textarea, select { font-family: inherit; }
     padding-bottom: 72px;
   }
 }
+
 

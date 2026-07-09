@@ -113,6 +113,60 @@
 .tour-price-big span { font-size: 14px; font-weight: 400; color: var(--gray-500); }
 .tour-bookings { font-size: 12px; color: var(--gray-400); }
 @media (max-width: 768px) {
-  .tour-list-card { grid-template-columns: 1fr; }
-  .tour-list-img { height: 200px; }
+  .tour-list-card {
+    grid-template-columns: 1fr;
+    border-radius: 16px;
+  }
+  
+  .tour-list-img {
+    height: 200px;
+  }
+
+  .tour-list-body {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .tours-filters {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    width: 100%;
+  }
+
+  /* Scroll tabs horizontally to prevent overflow */
+  .filter-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    padding-bottom: 6px;
+    gap: 8px;
+  }
+
+  .filter-tab {
+    flex-shrink: 0;
+    padding: 8px 14px;
+    font-size: 12px;
+  }
 }
+
+@media (max-width: 480px) {
+  .tour-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .tour-price-big {
+    font-size: 22px;
+  }
+}
+
