@@ -149,7 +149,7 @@ export default function GuestDashboard() {
         if (isChatsLoaded()) {
           // Initialize a chat session
           myChat = {
-            id: Date.now(),
+            id: Math.floor(Math.random() * 1000000000) + 1,
             guest: guest.name,
             booking: 'General Support',
             status: 'Online',
@@ -337,7 +337,7 @@ export default function GuestDashboard() {
     if (idx === -1) {
       // Initialize a new chat session if none exists
       targetChat = {
-        id: Date.now(),
+        id: Math.floor(Math.random() * 1000000000) + 1,
         guest: activeGuest.name,
         booking: 'General Support',
         status: 'Online',
