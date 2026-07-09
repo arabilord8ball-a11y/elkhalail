@@ -169,17 +169,14 @@ export default function Home() {
               </div>
             ))}
           </div>
-        </div>
-        <div className="hero-booking-bar">
-          <div className="container">
+          <div className="hero-booking-inline">
             <BookingForm />
           </div>
         </div>
       </section>
-      <div className="hero-booking-spacer" />
 
       {/* ===== ROOMS SECTION ===== */}
-      <section className="section">
+      <section className="section first-section">
         <div className="container">
           <div className="flex-between mb-section-header">
             <div>

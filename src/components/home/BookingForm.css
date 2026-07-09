@@ -68,37 +68,86 @@
   font-size: 13px;
   letter-spacing: 0.5px;
   margin: var(--space-1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.booking-submit-icon {
+  font-size: 16px;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {
   .booking-form {
     flex-direction: column;
     align-items: stretch;
-    padding: var(--space-4);
-    gap: var(--space-3);
-    border-radius: 16px;
+    padding: 16px;
+    gap: 0;
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
   }
-  .booking-divider { width: 100%; height: 1px; }
-  .booking-field { padding: 4px 0; }
-  .booking-field label { font-size: 12px; margin-bottom: 2px; }
+
+  .booking-field {
+    padding: 12px 4px;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .booking-field label {
+    font-size: 12px;
+    min-width: 90px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+  }
+
   .booking-field input,
   .booking-field select {
-    font-size: 16px; /* prevents auto-zoom on iOS/Android */
-    padding: 6px 0;
+    font-size: 15px; /* prevents auto-zoom on iOS/Android */
+    flex: 1;
+    background: var(--gray-50);
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 10px 12px;
   }
+
+  .booking-field input:focus,
+  .booking-field select:focus {
+    border-color: var(--gold);
+    outline: none;
+  }
+
+  .booking-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--gray-100);
+  }
+
   .booking-submit {
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     font-size: 15px;
-    border-radius: 10px;
-    margin: 4px 0 0;
+    border-radius: 14px;
+    margin: 12px 0 0;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #c9973a 0%, #e8b84b 100%);
+    box-shadow: 0 4px 16px rgba(201, 151, 58, 0.4);
+    letter-spacing: 0.8px;
+  }
+
+  .booking-submit-icon {
+    font-size: 18px;
   }
 }
 
 @media (max-width: 480px) {
   .booking-form {
+    padding: 12px;
+  }
+  .booking-submit {
     padding: 14px;
-    gap: 10px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
   }
 }

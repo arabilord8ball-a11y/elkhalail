@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './components/layout/ProtectedRoute';
+import BottomNav from './components/layout/BottomNav';
 
 // Public Pages
 import Home from './pages/public/Home';
@@ -98,6 +99,7 @@ export default function App() {
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <BottomNav />
       </BrowserRouter>
     </AuthProvider>
     </ThemeProvider>

@@ -3,11 +3,21 @@
 /* ===== HERO ===== */
 .hero {
   position: relative;
-  min-height: 100vh;
+  min-height: 85vh;
   display: flex;
   align-items: center;
   padding-top: var(--navbar-height);
-  padding-bottom: 120px;
+  padding-bottom: 60px;
+}
+
+/* ===== BOOKING FORM — inside hero at bottom ===== */
+.booking-section {
+  display: none; /* no longer used */
+}
+
+.hero-booking-inline {
+  margin-top: 36px;
+  width: 100%;
 }
 
 /* ===== HERO SECTION WRAPPER (includes booking bar) ===== */
@@ -87,17 +97,18 @@
 
 .hero-feature svg { color: var(--gold); font-size: 18px; }
 
-.hero-booking-bar {
-  position: absolute;
-  bottom: -32px;
-  left: 0;
-  right: 0;
-  z-index: 10;
+/* Spacer no longer needed */
+.hero-booking-spacer {
+  display: none;
 }
 
-/* Spacer to compensate for the absolutely-positioned booking bar */
-.hero-booking-spacer {
-  height: 64px;
+.hero-booking-bar {
+  display: none;
+}
+
+/* Extra top space after hero */
+.first-section {
+  padding-top: var(--space-16);
 }
 
 /* ===== SECTION SPACING ===== */
@@ -438,30 +449,33 @@
 }
 
 @media (max-width: 768px) {
-  /* Fix hero: make it NOT extend for the booking bar on mobile */
+  /* Add bottom padding to avoid overlap with bottom nav */
+  .home-page {
+    padding-bottom: 72px;
+  }
+
   .hero {
-    padding-bottom: 40px;
+    padding-bottom: 30px;
     min-height: 70vh;
+    align-items: flex-start;
+    padding-top: calc(var(--navbar-height) + 20px);
   }
-  /* On mobile, booking bar is static (not absolute) so it doesn't overlap content */
-  .hero-booking-bar {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    right: auto;
-    margin-top: 24px;
-    padding: 0 0 20px;
+
+  .hero-content {
+    padding-top: var(--space-8);
   }
-  /* No spacer needed on mobile */
-  .hero-booking-spacer {
-    display: none;
+
+  /* Booking inline on mobile */
+  .hero-booking-inline {
+    margin-top: 20px;
   }
+
   .rooms-carousel, .tours-carousel { 
     display: flex !important; 
     grid-template-columns: none !important;
     overflow-x: auto; 
-    gap: 16px;
-    padding: 10px 0;
+    gap: 14px;
+    padding: 10px 4px 16px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
@@ -471,13 +485,17 @@
     display: none;
   }
   .room-card, .tour-card { 
-    flex: 0 0 82vw;
-    max-width: 320px;
+    flex: 0 0 78vw;
+    max-width: 300px;
     scroll-snap-align: start; 
   }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* Stats: 3 per row */
+  .stats-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-3); }
+
   .reviews-grid { grid-template-columns: 1fr; }
-  .offer-banner-inner { flex-direction: column; text-align: center; }
+  .offer-banner-inner { flex-direction: column; text-align: center; gap: var(--space-4); }
+
   .carousel-wrapper { 
     position: relative; 
     display: block; 
@@ -489,38 +507,55 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: 5;
-    background: rgba(255, 255, 255, 0.9);
-    width: 36px;
-    height: 36px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    background: rgba(255, 255, 255, 0.92);
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
   }
-  .carousel-btn.prev {
-    left: 4px;
-  }
-  .carousel-btn.next {
-    right: 4px;
-  }
+  .carousel-btn.prev { left: 2px; }
+  .carousel-btn.next { right: 2px; }
+
   /* Hero text sizing */
-  .hero-title { font-size: clamp(32px, 9vw, 52px); }
+  .hero-title { font-size: clamp(30px, 8vw, 50px); }
   .hero-subtitle { font-size: 15px; }
-  .hero-eyebrow { font-size: 13px; }
+  .hero-eyebrow { font-size: 12px; }
+
+  .hero-features { gap: var(--space-3); }
+  .hero-feature { font-size: 12px; }
+
   /* Fix stats on mobile */
-  .stats-bar { padding: var(--space-6) 0; }
-  .stat-item { flex-direction: column; text-align: center; gap: var(--space-1); }
+  .stats-bar { padding: var(--space-5) 0; margin: var(--space-5) 0; }
+  .stat-item { flex-direction: column; text-align: center; gap: 4px; }
+  .stat-value { font-size: 15px; }
+  .stat-label { font-size: 11px; }
+  .stat-icon { font-size: 20px; }
+
   /* Why grid on mobile */
-  .why-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
-  .why-card { padding: var(--space-5); }
+  .why-grid { grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .why-card { padding: var(--space-4); }
+  .why-icon { width: 44px; height: 44px; }
+
   /* offer banner */
-  .offer-banner-text h3 { font-size: 22px; }
+  .offer-banner-text h3 { font-size: 20px; }
   .offer-cta { width: 100%; text-align: center; }
+  .offer-banner-icon { font-size: 36px; }
 }
 
 @media (max-width: 480px) {
-  .hero-title { font-size: 30px; }
+  .hero { min-height: 75vh; }
+  .hero-title { font-size: 28px; }
   .hero-subtitle { font-size: 14px; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .stats-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-2); }
   .why-grid { grid-template-columns: 1fr 1fr; }
-  .room-card, .tour-card { flex: 0 0 88vw; }
+  .room-card, .tour-card { flex: 0 0 85vw; }
   .reviews-grid { grid-template-columns: 1fr; }
-  .offer-banner-text h3 { font-size: 20px; }
+  .offer-banner-text h3 { font-size: 18px; }
+  .mb-section-header { flex-direction: column; gap: var(--space-2); }
+}
+
+@media (max-width: 360px) {
+  .hero-title { font-size: 24px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .room-card, .tour-card { flex: 0 0 90vw; }
 }

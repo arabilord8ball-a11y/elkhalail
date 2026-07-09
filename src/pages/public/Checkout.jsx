@@ -212,10 +212,20 @@ export default function Checkout() {
       if (breakfast) extrasList.push('Breakfast Buffet');
       if (airportShuttle) extrasList.push('Airport Shuttle Service');
       if (extraBed) extrasList.push('Extra Bed');
-      selectedTours.forEach(tourId => {
+      
+      // Build detailed tour info for invoice
+      const selectedTourDetails = selectedTours.map(tourId => {
         const t = allTours.find(item => item.id === tourId);
-        if (t) extrasList.push(`Tour: ${t.name}`);
-      });
+        if (!t) return null;
+        extrasList.push(`Tour: ${t.name}`);
+        return {
+          id: t.id,
+          name: t.name,
+          price: t.price,
+          guests: pending.guests,
+          total: t.price * pending.guests,
+        };
+      }).filter(Boolean);
 
       // Create booking object
       const finalBooking = {
@@ -245,7 +255,14 @@ export default function Checkout() {
         paymentMethod: 'Pay at Hotel',
         createdAt: today,
         avatar: guestName[0]?.toUpperCase() || 'G',
-        extras: extrasList
+        extras: extrasList,
+        // Invoice details
+        hasBreakfast: breakfast,
+        hasAirportShuttle: airportShuttle,
+        hasExtraBed: extraBed,
+        selectedTourDetails,
+        discount,
+        appliedPromoCode: appliedPromo?.code || null,
       };
 
       // Save booking to storage
@@ -382,8 +399,8 @@ export default function Checkout() {
                 <span className="txt-right">${bookingResult.roomPrice}</span>
               </div>
 
-              {/* Selected extras */}
-              {breakfast && (
+              {/* Selected extras - use stored booking data */}
+              {bookingResult.hasBreakfast && (
                 <div className="table-data-row">
                   <div>
                     <strong>Breakfast Buffet</strong>
@@ -395,7 +412,7 @@ export default function Checkout() {
                 </div>
               )}
 
-              {airportShuttle && (
+              {bookingResult.hasAirportShuttle && (
                 <div className="table-data-row">
                   <div>
                     <strong>Airport Pick-up Shuttle</strong>
@@ -407,7 +424,7 @@ export default function Checkout() {
                 </div>
               )}
 
-              {extraBed && (
+              {bookingResult.hasExtraBed && (
                 <div className="table-data-row">
                   <div>
                     <strong>Extra Rollaway Bed</strong>
@@ -419,34 +436,30 @@ export default function Checkout() {
                 </div>
               )}
 
-              {/* Selected Tours */}
-              {selectedTours.map(tourId => {
-                const tourItem = allTours.find(t => t.id === tourId);
-                if (!tourItem) return null;
-                return (
-                  <div className="table-data-row" key={tourId}>
-                    <div>
-                      <strong>Tour Package: {tourItem.name}</strong>
-                      <p className="item-sub">Guided excursion for {bookingResult.guests} guests</p>
-                    </div>
-                    <span className="txt-center">{bookingResult.guests} Pax</span>
-                    <span className="txt-right">${tourItem.price}</span>
-                    <span className="txt-right">${tourItem.price * bookingResult.guests}</span>
+              {/* Selected Tours - from stored booking data */}
+              {(bookingResult.selectedTourDetails || []).map(tourItem => (
+                <div className="table-data-row" key={tourItem.id}>
+                  <div>
+                    <strong>Tour Package: {tourItem.name}</strong>
+                    <p className="item-sub">Guided excursion for {tourItem.guests} guests</p>
                   </div>
-                );
-              })}
+                  <span className="txt-center">{tourItem.guests} Pax</span>
+                  <span className="txt-right">${tourItem.price}</span>
+                  <span className="txt-right">${tourItem.total}</span>
+                </div>
+              ))}
             </div>
 
             <div className="invoice-total-section">
               <div className="total-lines">
                 <div className="total-line">
                   <span>Subtotal:</span>
-                  <span>${getSubtotal()}</span>
+                  <span>${bookingResult.roomPrice + bookingResult.extrasPrice}</span>
                 </div>
-                {discount > 0 && (
+                {(bookingResult.discount > 0) && (
                   <div className="total-line discount-line">
-                    <span>Discount Code ({appliedPromo?.code}):</span>
-                    <span>-${discount}</span>
+                    <span>Discount Code ({bookingResult.appliedPromoCode}):</span>
+                    <span>-${bookingResult.discount}</span>
                   </div>
                 )}
                 <div className="total-line final-total">

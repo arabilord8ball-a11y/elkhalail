@@ -25,9 +25,6 @@
   flex-wrap: wrap;
 }
 
-/* stars-row, star, rating-num, rating-count → in shared.css */
-
-
 .room-view-badge {
   background: var(--gold-bg);
   color: var(--gold);
@@ -67,7 +64,10 @@
   border-bottom: 2px solid var(--gray-200);
   margin-bottom: var(--space-6);
   overflow-x: auto;
+  scrollbar-width: none;
 }
+.detail-tabs::-webkit-scrollbar { display: none; }
+
 .detail-tab {
   padding: 12px 20px;
   font-size: 14px;
@@ -250,6 +250,11 @@
 }
 
 /* ===== GALLERY ===== */
+.room-gallery {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
 .gallery-main {
   position: relative;
   border-radius: var(--radius-xl);
@@ -302,7 +307,11 @@
   gap: var(--space-2);
   margin-top: var(--space-2);
   overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
 }
+.gallery-thumbs::-webkit-scrollbar { display: none; }
+
 .gallery-thumb {
   width: 72px;
   height: 54px;
@@ -393,22 +402,6 @@
 }
 .bw-phone:hover { color: var(--gold-dark); }
 
-@media (max-width: 1100px) {
-  .room-detail-layout { grid-template-columns: 1fr; gap: 24px; }
-  .room-detail-right { 
-    position: static; 
-    grid-row: 1; 
-    max-width: 600px; 
-    width: 100%; 
-    margin: 0 auto 20px; 
-  }
-  .room-detail-left { grid-row: 2; }
-  .room-mobile-price { display: block; margin-bottom: var(--space-4); }
-  .room-price-big { font-size: 32px; font-weight: 800; color: var(--gold); }
-  .room-price-big span { font-size: 16px; color: var(--gray-500); font-weight: 400; }
-  .price-note-small { font-size: 12px; color: var(--gray-400); }
-}
-
 /* ── Guest Stepper ── */
 .guest-stepper {
   display: flex;
@@ -462,29 +455,91 @@
   user-select: none;
 }
 
-@media (max-width: 640px) {
-  .room-detail-title { font-size: 28px; }
-  .booking-widget { padding: var(--space-4); gap: 12px; }
+/* ===== TABLET ===== */
+@media (max-width: 1100px) {
+  .room-detail-layout { grid-template-columns: 1fr; gap: 24px; }
+  .room-detail-right { 
+    position: static; 
+    grid-row: 1; 
+    max-width: 600px; 
+    width: 100%; 
+    margin: 0 auto 20px; 
+  }
+  .room-detail-left { grid-row: 2; }
+  .room-mobile-price { display: block; margin-bottom: var(--space-4); }
+  .room-price-big { font-size: 32px; font-weight: 800; color: var(--gold); }
+  .room-price-big span { font-size: 16px; color: var(--gray-500); font-weight: 400; }
+  .price-note-small { font-size: 12px; color: var(--gray-400); }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  /* Add bottom padding for bottom nav */
+  .room-detail-page {
+    padding-bottom: 80px;
+  }
+
+  .room-detail-title { font-size: 26px; }
+
+  /* Gallery: smaller aspect ratio on mobile */
+  .gallery-main {
+    aspect-ratio: 4/3;
+    border-radius: 12px;
+  }
+  .room-gallery { border-radius: 12px; }
+
+  /* Smaller thumbs on mobile */
+  .gallery-thumb {
+    width: 56px;
+    height: 42px;
+  }
+
+  /* Booking widget always full width on mobile */
+  .room-detail-right {
+    max-width: 100%;
+    margin: 0 0 16px;
+    position: static;
+  }
+
+  /* Booking widget compact on mobile */
+  .booking-widget {
+    padding: 16px;
+    gap: 12px;
+    border-radius: 16px;
+  }
+  .bw-price { font-size: 28px; }
   .bw-fields { grid-template-columns: 1fr; }
-  .gallery-thumbs {
-    gap: 6px;
-    margin-top: 6px;
-    padding-bottom: 6px;
-    -webkit-overflow-scrolling: touch;
-  }
+
+  /* Quick facts: 2 columns */
   .room-quick-facts { 
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+    grid-template-columns: repeat(2, 1fr); 
     padding: var(--space-4);
+    gap: var(--space-3);
   }
-  .highlights-grid, .amenities-big-grid, .room-details-grid, .policies-grid { grid-template-columns: 1fr; }
+
+  .highlights-grid { grid-template-columns: 1fr; }
+  .amenities-big-grid { grid-template-columns: 1fr 1fr; }
+  .room-details-grid { grid-template-columns: 1fr; }
+  .policies-grid { grid-template-columns: 1fr; }
   .reviews-summary { grid-template-columns: 1fr; }
   .review-form-row { grid-template-columns: 1fr; }
+
+  /* Tabs scroll */
+  .detail-tab { padding: 10px 14px; font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+  .room-detail-title { font-size: 22px; }
+  .bw-fields { grid-template-columns: 1fr; }
+  .gallery-thumbs { gap: 4px; }
+  .amenities-big-grid { grid-template-columns: 1fr; }
+  .detail-tab { padding: 8px 12px; font-size: 12px; }
 }
 
 /* ===================== MINI INTERACTIVE CALENDAR ===================== */
 .mini-availability-calendar {
-  margin-top: 25px;
-  padding: 20px;
+  margin-top: 20px;
+  padding: 16px;
   border: 1px solid var(--gray-200);
   border-radius: 12px;
   background: var(--white);
@@ -494,7 +549,7 @@
 .mac-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  gap: 4px;
   font-size: 11px;
   text-align: center;
 }
@@ -503,13 +558,14 @@
   font-weight: 600;
   color: var(--gray-400);
   padding-bottom: 4px;
+  font-size: 10px;
 }
 
 .mac-day-cell {
   border-radius: 6px;
-  padding: 6px 2px;
+  padding: 5px 2px;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 10px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -518,6 +574,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
+  min-height: 36px;
 }
 
 /* Available state */
@@ -562,7 +619,7 @@
 }
 
 .mac-day-price {
-  font-size: 8.5px;
+  font-size: 8px;
   font-weight: 600;
   opacity: 0.85;
   margin-top: 1px;
@@ -570,11 +627,12 @@
 
 .mac-legend {
   display: flex;
-  gap: 15px;
-  margin-top: 12px;
+  gap: 12px;
+  margin-top: 10px;
   font-size: 10px;
   font-weight: 600;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .mac-legend-item {
@@ -591,22 +649,22 @@
 
 @media (max-width: 480px) {
   .mini-availability-calendar {
-    padding: 12px;
+    padding: 10px;
   }
   .mac-grid {
-    gap: 4px;
+    gap: 3px;
   }
   .mac-day-cell {
-    padding: 8px 2px;
-    font-size: 12px;
+    padding: 6px 1px;
+    font-size: 11px;
+    min-height: 34px;
   }
   /* Hide price to prevent cell overflow on Android screens */
   .mac-day-price {
     display: none;
   }
   .mac-legend {
-    gap: 10px;
+    gap: 8px;
     font-size: 9px;
   }
 }
-

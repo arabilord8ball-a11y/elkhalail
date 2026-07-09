@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { FiCalendar, FiUsers, FiHome } from 'react-icons/fi';
+import { FiCalendar, FiUsers, FiHome, FiSearch } from 'react-icons/fi';
 import './BookingForm.css';
 
 export default function BookingForm({ compact = false }) {
@@ -113,7 +113,8 @@ export default function BookingForm({ compact = false }) {
         </select>
       </div>
       <button type="submit" className="btn btn-primary booking-submit">
-        CHECK AVAILABILITY
+        <FiSearch className="booking-submit-icon" />
+        <span>CHECK AVAILABILITY</span>
       </button>
     </form>
   );

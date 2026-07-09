@@ -338,3 +338,25 @@ input, textarea, select { font-family: inherit; }
 @media (max-width: 480px) {
   .hide-sm { display: none !important; }
 }
+
+/* ===================== MOBILE BODY FIX ===================== */
+/* Prevent horizontal overflow globally on mobile */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+  /* Add bottom padding to all main pages for bottom nav */
+  .rooms-page,
+  .tours-page,
+  .gallery-page,
+  .offers-page,
+  .faq-page,
+  .about-page,
+  .contact-page,
+  .search-page,
+  .guest-portal-page,
+  .guest-dashboard-page {
+    padding-bottom: 72px;
+  }
+}
+
