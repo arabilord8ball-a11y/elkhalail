@@ -13,13 +13,15 @@ import {
   getStoredBookings, saveStoredBookings,
   getStoredReviews, saveStoredReviews,
   getStoredChats, saveStoredChats, isChatsLoaded,
-  getStoredGuests, saveStoredGuests
+  getStoredGuests, saveStoredGuests,
+  getStoredSettings
 } from '../../utils/storage';
 
 export default function GuestDashboard() {
   const navigate = useNavigate();
   const [activeGuest, setActiveGuest] = useState(null);
   const [activeTab, setActiveTab] = useState('bookings');
+  const [settings, setSettings] = useState(() => getStoredSettings());
   
   // Bookings, Reviews, Chats from local storage
   const [bookings, setBookings] = useState([]);
@@ -170,6 +172,7 @@ export default function GuestDashboard() {
 
     // Listen for live updates
     const handleLiveUpdates = () => {
+      setSettings(getStoredSettings());
       const updatedBookings = getStoredBookings() || [];
       setBookings(updatedBookings.filter(b => b.guest && b.guest.toLowerCase() === guest.name.toLowerCase()));
 
@@ -900,9 +903,9 @@ export default function GuestDashboard() {
               {/* Hotel Header */}
               <div className="invoice-hotel-row">
                 <div>
-                  <h2>⚜ El Khalil Boutique Hotel</h2>
+                  <h2>⚜ {settings.hotelName || 'El Khalil Boutique Hotel'}</h2>
                   <p>Nazlet El-Semman, Al Haram, Giza, Egypt</p>
-                  <p>elkhalilpyramidsinn@gmail.com | +20 123 456 7890</p>
+                  <p>{settings.email} | {settings.phone}</p>
                 </div>
                 <div style={{ textAlign: 'right' }}>
                   <h3 style={{ color: 'var(--gold)' }}>TAX INVOICE</h3>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getStoredTours, getStoredReviews } from '../../utils/storage';
+import { getStoredTours, getStoredReviews, getStoredSettings } from '../../utils/storage';
 import { FiChevronLeft, FiChevronRight, FiStar, FiCheckCircle, FiShield, FiPhone, FiCalendar, FiUsers, FiX } from 'react-icons/fi';
 import Navbar from '../../components/layout/Navbar';
 import Footer from '../../components/layout/Footer';
@@ -11,6 +11,7 @@ export default function TourDetail() {
   const { slug } = useParams();
   const [tours, setTours] = useState(() => getStoredTours());
   const tour = tours.find(t => t.slug === slug);
+  const [settings, setSettings] = useState(() => getStoredSettings());
   const [mainImg, setMainImg] = useState(0);
   const [guests, setGuests] = useState(1);
   const [date, setDate] = useState('');
@@ -24,6 +25,7 @@ export default function TourDetail() {
   useEffect(() => {
     const handleStorage = () => {
       setTours(getStoredTours());
+      setSettings(getStoredSettings());
       syncReviews();
     };
     window.addEventListener('storage', handleStorage);
@@ -318,7 +320,7 @@ export default function TourDetail() {
                 <div className="tbw-help">
                   <div className="tbw-help-title">Need Help?</div>
                   <div className="tbw-help-sub">Our travel experts are here for you.</div>
-                  <a href="tel:+201234567890" className="bw-phone"><FiPhone /> +20 123 456 7890</a>
+                  <a href={`tel:${settings.phone}`} className="bw-phone"><FiPhone /> {settings.phone}</a>
                 </div>
               </div>
             </div>

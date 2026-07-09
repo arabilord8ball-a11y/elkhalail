@@ -10,7 +10,7 @@ export default function WhatsAppButton() {
       const settings = getStoredSettings();
       // Remove non-digit characters except plus sign
       const cleaned = (settings.whatsappNumber || '').replace(/[^\d+]/g, '');
-      setPhone(cleaned || '+201234567890');
+      setPhone(cleaned || '');
     };
     handleStorage();
     window.addEventListener('storage', handleStorage);
