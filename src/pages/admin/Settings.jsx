@@ -15,6 +15,7 @@ import {
   saveStoredUsers
 } from '../../utils/storage';
 import { useTheme, THEMES } from '../../context/ThemeContext';
+import { compressImageToBase64 } from '../../utils/image';
 import './AdminTable.css';
 
 const navItems = [
@@ -204,30 +205,18 @@ export default function Settings() {
     if (!file) return;
 
     setUploadingField(fieldName);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
-      const response = await fetch('https://tmpfiles.org/api/v1/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      if (response.ok && data.data && data.data.url) {
-        const directUrl = data.data.url.replace('https://tmpfiles.org/', 'https://tmpfiles.org/dl/');
-        handleChange(fieldName, directUrl);
-        showToast('Image uploaded successfully (0 bytes database footprint)!');
-      } else {
-        throw new Error('Upload failed');
-      }
+      const base64Url = await compressImageToBase64(file, 800, 600, 0.7);
+      handleChange(fieldName, base64Url);
+      showToast('Image uploaded and optimized successfully!');
     } catch (err) {
-      const localUrl = URL.createObjectURL(file);
-      handleChange(fieldName, localUrl);
-      showToast('Cached locally (session preview mode).');
+      console.error(err);
+      showToast('Failed to process image.');
     } finally {
       setUploadingField(null);
     }
   };
+
 
   const handleSave = (e) => {
     e.preventDefault();

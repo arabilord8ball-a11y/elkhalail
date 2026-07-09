@@ -3,6 +3,7 @@ import { FiSearch, FiDownload, FiPlus, FiX, FiCheckCircle, FiTrash2, FiEdit2, Fi
 import { FaBed } from 'react-icons/fa';
 import AdminLayout from '../../components/layout/AdminLayout';
 import { getStoredRooms, saveStoredRooms } from '../../utils/storage';
+import { compressImageToBase64 } from '../../utils/image';
 import './AdminTable.css';
 
 const ALL_AMENITIES = [
@@ -110,50 +111,28 @@ export default function AdminRooms() {
     if (!file) return;
 
     setUploadingImage(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
-      const response = await fetch('https://tmpfiles.org/api/v1/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await response.json();
-      if (response.ok && data.data && data.data.url) {
-        const directUrl = data.data.url.replace('https://tmpfiles.org/', 'https://tmpfiles.org/dl/');
-        if (mode === 'add') {
-          setNewRoom(prev => ({
-            ...prev,
-            images: [...(prev.images || []), directUrl]
-          }));
-        } else {
-          setCurrentRoom(prev => ({
-            ...prev,
-            images: [...(prev.images || []), directUrl]
-          }));
-        }
-        showToast('Image uploaded successfully (0 bytes database footprint)!');
-      } else {
-        throw new Error('Upload failed');
-      }
-    } catch (err) {
-      const localUrl = URL.createObjectURL(file);
+      const base64Url = await compressImageToBase64(file, 800, 600, 0.7);
       if (mode === 'add') {
         setNewRoom(prev => ({
           ...prev,
-          images: [...(prev.images || []), localUrl]
+          images: [...(prev.images || []), base64Url]
         }));
       } else {
         setCurrentRoom(prev => ({
           ...prev,
-          images: [...(prev.images || []), localUrl]
+          images: [...(prev.images || []), base64Url]
         }));
       }
-      showToast('Cached locally (session preview mode).');
+      showToast('Image uploaded and optimized successfully!');
+    } catch (err) {
+      console.error(err);
+      showToast('Failed to process image.');
     } finally {
       setUploadingImage(false);
     }
   };
+
 
   const handleRemoveImage = (index, mode) => {
     if (mode === 'add') {
