@@ -197,7 +197,7 @@ export default function TourDetail() {
                 </div>
 
                 <div className="tour-reviews-grid">
-                  {(reviews.length > 0 ? reviews : tourReviews.slice(0, 3)).map(rev => (
+                  {(reviews.length > 0 ? reviews : fallbackTourReviews.slice(0, 3)).map(rev => (
                     <div key={rev.id} className="tour-review-card">
                       <div className="review-item-header">
                         <div className="review-avatar-sm">{rev.avatar}</div>
