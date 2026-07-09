@@ -40,11 +40,7 @@ export default function AdminLayout({ children }) {
         return JSON.parse(stored);
       } catch (e) {}
     }
-    return [
-      { id: 1, text: 'New Booking by John Doe (Standard Room)', time: '5 mins ago', read: false },
-      { id: 2, text: 'New Review received (5 stars) from Sarah', time: '1 hour ago', read: false },
-      { id: 3, text: 'Room #103 rates updated for July', time: '2 hours ago', read: true },
-    ];
+    return []; // No fake mock notifications
   });
 
   const [counts, setCounts] = useState({
@@ -177,42 +173,94 @@ export default function AdminLayout({ children }) {
 
   useEffect(() => {
     const pollInterval = setInterval(() => {
-      const bookingsList = getStoredBookings() || [];
-      const reviewsList = getStoredReviews() || [];
-      const chatsList = getStoredChats() || [];
+      // Fetch directly from Supabase to check for updates & sync cache
+      Promise.all([
+        supabase.from('bookings').select('*'),
+        supabase.from('reviews').select('*'),
+        supabase.from('chats').select('*')
+      ]).then(([bookingsRes, reviewsRes, chatsRes]) => {
+        if (bookingsRes.error || reviewsRes.error || chatsRes.error) return;
 
-      const current = {
-        bookings: bookingsList.filter(b => b && b.status === 'Pending').length,
-        reviews: reviewsList.filter(r => r && r.status === 'Pending').length,
-        chats: chatsList.filter(c => c && c.unread > 0).length
-      };
-      
-      const prev = prevCountsRef.current;
-      let trigger = false;
-      let text = '';
+        const bookingsList = bookingsRes.data.map(b => ({
+          id: b.id,
+          guest: b.guest,
+          email: b.email,
+          phone: b.phone,
+          country: b.country,
+          room: b.room,
+          roomId: b.room_id,
+          roomSlug: b.room_slug,
+          roomType: b.room_type,
+          checkIn: b.check_in,
+          checkOut: b.check_out,
+          nights: b.nights,
+          guests: b.guests,
+          amount: b.price,
+          price: b.price,
+          status: b.status,
+          payment: b.payment,
+          paymentMethod: b.payment_method,
+          createdAt: b.created_at,
+          avatar: b.avatar
+        })) || [];
 
-      if (current.bookings > prev.bookings) {
-        trigger = true;
-        const lastB = bookingsList.find(b => b && b.status === 'Pending');
-        text = lastB ? `New Booking by ${lastB.guest || 'Guest'} (${lastB.room || 'Room'})` : 'New guest booking received!';
-      } else if (current.reviews > prev.reviews) {
-        trigger = true;
-        const lastR = reviewsList.find(r => r && r.status === 'Pending');
-        text = lastR ? `New Review received (${lastR.rating || 5} stars) from ${lastR.guest || 'Guest'}` : 'New review received!';
-      } else if (current.chats > prev.chats) {
-        trigger = true;
-        const activeC = chatsList.filter(c => c && c.unread > 0);
-        const lastC = activeC[activeC.length - 1];
-        text = lastC ? `New Message from ${lastC.guest || 'Guest'}` : 'New chat message received!';
-      }
+        const reviewsList = reviewsRes.data.map(r => ({
+          id: r.id,
+          guest: r.guest,
+          name: r.guest,
+          booking: r.booking,
+          rating: Number(r.rating) || 5,
+          review: r.review,
+          comment: r.review,
+          date: r.date,
+          status: r.status,
+          avatar: r.avatar,
+          room: r.room
+        })) || [];
 
-      if (trigger) {
-        setNotifications(prevNotifs => [{ id: Date.now() + Math.random(), text, time: 'Just now', read: false }, ...prevNotifs]);
-        playNotificationChime();
-      }
-      
-      prevCountsRef.current = current;
-    }, 4000);
+        const chatsList = chatsRes.data || [];
+
+        // Save back to stored caches dynamically
+        // Import save helpers from storage utility
+        import('../../utils/storage').then((storage) => {
+          storage.saveStoredBookings(bookingsList);
+          storage.saveStoredReviews(reviewsList);
+          storage.saveStoredChats(chatsList);
+        });
+
+        const current = {
+          bookings: bookingsList.filter(b => b && b.status === 'Pending').length,
+          reviews: reviewsList.filter(r => r && r.status === 'Pending').length,
+          chats: chatsList.filter(c => c && c.unread > 0).length
+        };
+        
+        const prev = prevCountsRef.current;
+        let trigger = false;
+        let text = '';
+
+        if (current.bookings > prev.bookings) {
+          trigger = true;
+          const lastB = bookingsList.find(b => b && b.status === 'Pending');
+          text = lastB ? `New Booking by ${lastB.guest || 'Guest'} (${lastB.room || 'Room'})` : 'New guest booking received!';
+        } else if (current.reviews > prev.reviews) {
+          trigger = true;
+          const lastR = reviewsList.find(r => r && r.status === 'Pending');
+          text = lastR ? `New Review received (${lastR.rating || 5} stars) from ${lastR.guest || 'Guest'}` : 'New review received!';
+        } else if (current.chats > prev.chats) {
+          trigger = true;
+          const activeC = chatsList.filter(c => c && c.unread > 0);
+          const lastC = activeC[activeC.length - 1];
+          text = lastC ? `New Message from ${lastC.guest || 'Guest'}` : 'New chat message received!';
+        }
+
+        if (trigger) {
+          setNotifications(prevNotifs => [{ id: Date.now() + Math.random(), text, time: 'Just now', read: false }, ...prevNotifs]);
+          playNotificationChime();
+        }
+        
+        prevCountsRef.current = current;
+      }).catch(err => console.error("Admin polling failed:", err));
+    }, 5000);
 
     return () => clearInterval(pollInterval);
   }, []);

@@ -4,6 +4,8 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 import BottomNav from './components/layout/BottomNav';
+import PWAInstallPrompt from './components/layout/PWAInstallPrompt';
+import './components/layout/PWAInstallPrompt.css';
 
 // Public Pages
 import Home from './pages/public/Home';
@@ -99,6 +101,7 @@ export default function App() {
           {/* 404 Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <PWAInstallPrompt />
         <BottomNav />
       </BrowserRouter>
     </AuthProvider>

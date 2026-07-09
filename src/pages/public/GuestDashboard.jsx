@@ -319,28 +319,46 @@ export default function GuestDashboard() {
   };
 
   // Send Message in Chat
-  const handleSendChat = (e) => {
+  const handleSendChat = async (e) => {
     e.preventDefault();
     if (!chatInput.trim()) return;
     
     const chatsList = getStoredChats() || [];
-    const idx = chatsList.findIndex(c => c.guest.toLowerCase() === activeGuest.name.toLowerCase());
-    if (idx !== -1) {
-      const newMsg = {
-        from: 'guest',
-        text: chatInput,
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    let idx = chatsList.findIndex(c => c.guest && c.guest.toLowerCase() === activeGuest.name.toLowerCase());
+    
+    const newMsg = {
+      from: 'guest',
+      text: chatInput,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+
+    if (idx === -1) {
+      // Initialize a new chat session if none exists
+      const newChat = {
+        id: Date.now(),
+        guest: activeGuest.name,
+        booking: 'General Support',
+        status: 'Online',
+        unread: 1,
+        avatar: activeGuest.avatar || activeGuest.name[0]?.toUpperCase() || 'G',
+        messages: [
+          { from: 'admin', text: `Welcome to El Khalil Hotel chat support, ${activeGuest.name}! How can we assist you today?`, time: 'Now' },
+          newMsg
+        ]
       };
-      
+      chatsList.push(newChat);
+      idx = chatsList.length - 1;
+    } else {
+      chatsList[idx].messages = chatsList[idx].messages || [];
       chatsList[idx].messages.push(newMsg);
       chatsList[idx].unread = (chatsList[idx].unread || 0) + 1;
       chatsList[idx].status = 'Online';
-      
-      saveStoredChats(chatsList);
-      setChats([...chatsList[idx].messages]);
-      setChatInput('');
-      window.dispatchEvent(new Event('live-chat-update'));
     }
+    
+    await saveStoredChats(chatsList);
+    setChats([...chatsList[idx].messages]);
+    setChatInput('');
+    window.dispatchEvent(new Event('live-chat-update'));
   };
 
   // Submit new Review from Booking
