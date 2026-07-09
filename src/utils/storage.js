@@ -781,13 +781,54 @@ export function initRealtimeChats() {
   // 2. Short Polling Fallback (every 3 seconds)
   isPollingChats = true;
   setInterval(() => {
-    supabase.from('chats').select('*').then(({ data, error }) => {
+    let query = supabase.from('chats').select('*');
+    
+    // Guest isolation check
+    const activeGuestData = localStorage.getItem('elkhalil_active_guest');
+    let guestName = null;
+    if (activeGuestData) {
+      try {
+        const g = JSON.parse(activeGuestData);
+        if (g && g.name) {
+          guestName = g.name;
+          query = query.eq('guest', g.name);
+        }
+      } catch (e) {}
+    }
+
+    query.then(({ data, error }) => {
       if (!error && data) {
-        const hasChanged = JSON.stringify(data) !== JSON.stringify(cacheChats);
-        if (hasChanged) {
-          cacheChats = data;
-          triggerUIRefresh();
-          window.dispatchEvent(new Event('live-chat-update'));
+        if (guestName) {
+          // Guest mode: Merge/update only this guest's chat in the cache
+          if (data.length > 0) {
+            const guestChat = data[0];
+            const hasChanged = !cacheChats || !cacheChats.some(c => 
+              c.guest && c.guest.toLowerCase() === guestChat.guest.toLowerCase() && 
+              JSON.stringify(c.messages) === JSON.stringify(guestChat.messages)
+            );
+            if (hasChanged) {
+              if (cacheChats) {
+                cacheChats = cacheChats.map(c => 
+                  c.guest && c.guest.toLowerCase() === guestChat.guest.toLowerCase() ? guestChat : c
+                );
+                if (!cacheChats.some(c => c.guest && c.guest.toLowerCase() === guestChat.guest.toLowerCase())) {
+                  cacheChats.push(guestChat);
+                }
+              } else {
+                cacheChats = [guestChat];
+              }
+              triggerUIRefresh();
+              window.dispatchEvent(new Event('live-chat-update'));
+            }
+          }
+        } else {
+          // Admin mode: Overwrite full cache
+          const hasChanged = JSON.stringify(data) !== JSON.stringify(cacheChats);
+          if (hasChanged) {
+            cacheChats = data;
+            triggerUIRefresh();
+            window.dispatchEvent(new Event('live-chat-update'));
+          }
         }
       }
     });
@@ -805,7 +846,20 @@ export function getStoredChats() {
 
   if (!fetchingChats) {
     fetchingChats = true;
-    supabase.from('chats').select('*').then(({ data, error }) => {
+    let query = supabase.from('chats').select('*');
+    
+    // Guest isolation check
+    const activeGuestData = localStorage.getItem('elkhalil_active_guest');
+    if (activeGuestData) {
+      try {
+        const g = JSON.parse(activeGuestData);
+        if (g && g.name) {
+          query = query.eq('guest', g.name);
+        }
+      } catch (e) {}
+    }
+
+    query.then(({ data, error }) => {
       fetchingChats = false;
       if (!error && data && data.length) {
         cacheChats = data;
@@ -817,6 +871,7 @@ export function getStoredChats() {
 
   return [];
 }
+
 
 export async function saveStoredChats(chats) {
   cacheChats = chats;
