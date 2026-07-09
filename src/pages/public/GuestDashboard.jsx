@@ -14,7 +14,7 @@ import {
   getStoredReviews, saveStoredReviews,
   getStoredChats, saveStoredChats, isChatsLoaded,
   getStoredGuests, saveStoredGuests,
-  getStoredSettings
+  getStoredSettings, saveSingleChat
 } from '../../utils/storage';
 
 export default function GuestDashboard() {
@@ -37,7 +37,7 @@ export default function GuestDashboard() {
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   
-  const chatEndRef = useRef(null);
+  const chatMessagesRef = useRef(null);
   const [linkBookingCode, setLinkBookingCode] = useState('');
   const [selectedInvoice, setSelectedInvoice] = useState(null); // booking object for invoice modal
   const [chatInput, setChatInput] = useState('');
@@ -196,12 +196,12 @@ export default function GuestDashboard() {
     };
   }, [navigate]);
 
-  // Scroll Chat to bottom on message
+  // Scroll Chat container to bottom when messages list changes
   useEffect(() => {
-    if (chatEndRef.current) {
-      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (activeTab === 'chat' && chatMessagesRef.current) {
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
     }
-  }, [chats, activeTab]);
+  }, [chats.length, activeTab]);
 
   const triggerAlert = (msg) => {
     setSuccessMsg(msg);
@@ -332,9 +332,11 @@ export default function GuestDashboard() {
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
 
+    let targetChat = null;
+
     if (idx === -1) {
       // Initialize a new chat session if none exists
-      const newChat = {
+      targetChat = {
         id: Date.now(),
         guest: activeGuest.name,
         booking: 'General Support',
@@ -346,17 +348,17 @@ export default function GuestDashboard() {
           newMsg
         ]
       };
-      chatsList.push(newChat);
-      idx = chatsList.length - 1;
     } else {
-      chatsList[idx].messages = chatsList[idx].messages || [];
-      chatsList[idx].messages.push(newMsg);
-      chatsList[idx].unread = (chatsList[idx].unread || 0) + 1;
-      chatsList[idx].status = 'Online';
+      targetChat = {
+        ...chatsList[idx],
+        messages: [...(chatsList[idx].messages || []), newMsg],
+        unread: (chatsList[idx].unread || 0) + 1,
+        status: 'Online'
+      };
     }
     
-    await saveStoredChats(chatsList);
-    setChats([...chatsList[idx].messages]);
+    await saveSingleChat(targetChat);
+    setChats(targetChat.messages);
     setChatInput('');
     window.dispatchEvent(new Event('live-chat-update'));
   };
@@ -674,7 +676,7 @@ export default function GuestDashboard() {
                     </div>
                   </div>
 
-                  <div className="guest-chat-messages">
+                  <div className="guest-chat-messages" ref={chatMessagesRef}>
                     {chats.map((msg, idx) => (
                       <div key={idx} className={`chat-message ${msg.from === 'guest' ? 'guest-sender' : 'admin-sender'}`}>
                         <div className="msg-sender-label">{msg.from === 'guest' ? 'You' : 'Reception Staff'}</div>
@@ -682,7 +684,6 @@ export default function GuestDashboard() {
                         <div className="msg-time">{msg.time}</div>
                       </div>
                     ))}
-                    <div ref={chatEndRef} />
                   </div>
 
                   <form className="guest-chat-input-bar" onSubmit={handleSendChat}>

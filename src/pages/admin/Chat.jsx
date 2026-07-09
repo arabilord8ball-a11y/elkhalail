@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { FiSend, FiPaperclip, FiSmile, FiTrash2 } from 'react-icons/fi';
 import AdminLayout from '../../components/layout/AdminLayout';
-import { getStoredChats, saveStoredChats, deleteStoredChat } from '../../utils/storage';
+import { getStoredChats, saveStoredChats, deleteStoredChat, saveSingleChat } from '../../utils/storage';
+import { useRef } from 'react';
 import './AdminTable.css';
 
 export default function Chat() {
   const [conversations, setConversations] = useState(() => getStoredChats());
   const [activeChat, setActiveChat] = useState(() => conversations[0] || null);
   const [input, setInput] = useState('');
+  const chatMessagesRef = useRef(null);
 
   const handleDeleteChat = (id) => {
     if (window.confirm('Are you sure you want to delete this conversation?')) {
@@ -40,21 +42,32 @@ export default function Chat() {
     };
   }, [activeChat, conversations]);
 
+  // Auto-scroll admin chat container
+  useEffect(() => {
+    if (activeChat && chatMessagesRef.current) {
+      chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+    }
+  }, [activeChat?.messages?.length, activeChat?.id]);
+
   const sendMessage = (e) => {
     e.preventDefault();
     if (!input.trim() || !activeChat) return;
+
     const newMsg = { 
       from: 'admin', 
       text: input, 
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
     };
+
+    const updatedChat = { 
+      ...activeChat, 
+      messages: [...(activeChat.messages || []), newMsg], 
+      unread: 0 
+    };
     
-    const updated = conversations.map(c =>
-      c.id === activeChat.id ? { ...c, messages: [...c.messages, newMsg], unread: 0 } : c
-    );
-    setConversations(updated);
-    saveStoredChats(updated);
-    setActiveChat(prev => ({ ...prev, messages: [...prev.messages, newMsg], unread: 0 }));
+    setConversations(conversations.map(c => c.id === activeChat.id ? updatedChat : c));
+    saveSingleChat(updatedChat);
+    setActiveChat(updatedChat);
     setInput('');
     window.dispatchEvent(new Event('live-chat-update'));
   };
@@ -139,7 +152,7 @@ export default function Chat() {
                 <a href="#" style={{ fontSize: '13px', color: 'var(--gold)', fontWeight: 600, textDecoration: 'none' }}>View Booking</a>
               </div>
 
-              <div className="chat-messages">
+              <div className="chat-messages" ref={chatMessagesRef}>
                 {(activeChat.messages || []).map((msg, i) => (
                   <div key={i} className={`chat-message ${msg.from}`}>
                     <div className="msg-bubble">{msg.text}</div>

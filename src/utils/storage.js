@@ -823,7 +823,7 @@ export async function saveStoredChats(chats) {
   triggerUIRefresh();
 
   for (let c of chats) {
-    await supabase.from('chats').upsert({
+    const { error } = await supabase.from('chats').upsert({
       id: c.id,
       guest: c.guest,
       booking: c.booking,
@@ -832,8 +832,40 @@ export async function saveStoredChats(chats) {
       avatar: c.avatar,
       messages: c.messages
     });
+    if (error) {
+      console.error("Error upserting chat to Supabase:", error);
+    }
   }
 }
+
+export async function saveSingleChat(chat) {
+  // Update in-memory cache
+  if (cacheChats) {
+    cacheChats = cacheChats.map(c => c.id === chat.id ? chat : c);
+    if (!cacheChats.some(c => c.id === chat.id)) {
+      cacheChats.push(chat);
+    }
+  } else {
+    cacheChats = [chat];
+  }
+  triggerUIRefresh();
+
+  // Send single row upsert to Supabase
+  const { error } = await supabase.from('chats').upsert({
+    id: chat.id,
+    guest: chat.guest,
+    booking: chat.booking,
+    status: chat.status,
+    unread: Number(chat.unread || 0),
+    avatar: chat.avatar,
+    messages: chat.messages
+  });
+
+  if (error) {
+    console.error("Error saving single chat to Supabase:", error);
+  }
+}
+
 
 
 // 13. OFFERS
